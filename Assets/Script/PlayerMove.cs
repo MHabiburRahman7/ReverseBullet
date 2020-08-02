@@ -12,18 +12,21 @@ public class PlayerMove : MonoBehaviour
 
     //see to the mouse
     //values that will be set in the Inspector
-    public Transform Target, AimSprite;
+    public Transform AimSprite;
     public float RotationSpeed;
     public AimCtrl m_aimCtrl;
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab, front;
+    public List<GameObject> bulletAway_gameObject;
 
     //values for internal use
     private Quaternion _lookRotation;
     private Vector3 _direction;
+    private bool bulletAway;
 
     // Start is called before the first frame update
     void Start()
     {
+        bulletAway = false;
     }
 
     // Update is called once per frame
@@ -36,6 +39,30 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             fireBullet();
+        }
+        if (bulletAway && Input.GetKeyDown(KeyCode.Space))
+        {
+            pullTheBullet();
+        }
+        if (bulletAway)
+        {
+            if (bulletAway_gameObject.Count == 0)
+                bulletAway = false;
+        }
+    }
+
+    void pullTheBullet()
+    {
+        for(int i=0; i<bulletAway_gameObject.Count; i++)
+        {
+            Debug.Log("Pulling bullet: " + i);
+            bulletAway_gameObject[i].GetComponent<BulletCtrl>().pullTheBullet();
+            if (bulletAway_gameObject[i].GetComponent<BulletCtrl>().isClose)
+            {
+                GameObject tempBullet = bulletAway_gameObject[i]; 
+                bulletAway_gameObject.RemoveAt(i);
+                Destroy(tempBullet);
+            }
         }
     }
 
@@ -59,13 +86,27 @@ public class PlayerMove : MonoBehaviour
     {
 
         // find the vector pointing from our position to the target
-        _direction = (m_aimCtrl.worldPosition - transform.position).normalized;
+        _direction = (m_aimCtrl.worldPosition - transform.position);
+        //_direction = (m_aimCtrl.worldPosition - front.transform.position).normalized;
 
         //create the rotation we need to be in to look at the target
-        _lookRotation = Quaternion.LookRotation(_direction);
+        //_lookRotation = Quaternion.LookRotation(_direction);
+
+        //_direction = new Vector3(0, 0, _direction.z);
+        //transform.LookAt(_direction, transform.forward);
+        transform.up = _direction;
 
         //rotate us over time according to speed until we are in the required rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
+        //Quaternion LookAtRotationOnly_Z = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, _lookRotation.eulerAngles.z);
+
+        //Debug.Log("euler angels before: " + _lookRotation.eulerAngles);
+        //_lookRotation.eulerAngles = new Vector3(0, 0, _lookRotation.eulerAngles.z);
+        //Debug.Log("euler angels: " + _lookRotation.eulerAngles);
+        //transform.rotation = _lookRotation;
+
+        //transform.rotation = new Quaternion(0, 0, _lookRotation.z, _lookRotation.w);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, LookAtRotationOnly_Z, Time.deltaTime * RotationSpeed);
     }
 
     void AimFace()
@@ -76,8 +117,14 @@ public class PlayerMove : MonoBehaviour
     void fireBullet()
     {
         Vector3 direction = m_aimCtrl.worldPosition;
-        GameObject projectile = (GameObject)Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
-        Rigidbody bullet_rb = projectile.GetComponent<Rigidbody>();
-        bullet_rb.velocity = direction * speed;
+        //Vector3 direction = new Vector3(-2.0f, 0, 0);
+
+        //Debug.Log("Velocity: " + direction);
+        GameObject projectile = (GameObject)Instantiate(bulletPrefab, front.transform.position, Quaternion.identity);
+        bulletAway_gameObject.Add(projectile);
+        projectile.GetComponent<BulletCtrl>().SetupBullet(direction, speed, this.gameObject);
+        //Rigidbody bullet_rb = projectile.GetComponent<Rigidbody>();
+        //bullet_rb.velocity = direction * 1f;
+        bulletAway = true;
     }
 }
