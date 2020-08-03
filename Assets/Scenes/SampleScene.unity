@@ -616,12 +616,17 @@ PrefabInstance:
     - target: {fileID: 5531798989011633538, guid: a07e34531a690d04ea6a0123c4399fef,
         type: 3}
       propertyPath: bulletSpeed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5531798989011633541, guid: a07e34531a690d04ea6a0123c4399fef,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5531798989011633565, guid: a07e34531a690d04ea6a0123c4399fef,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5531798989011633566, guid: a07e34531a690d04ea6a0123c4399fef,
         type: 3}
