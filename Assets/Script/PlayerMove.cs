@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+	public int healthVal;
 	public float speed, bulletSpeed;
 	public int bullet_num;
 
@@ -28,6 +29,7 @@ public class PlayerMove : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody>();
 		bulletAway = false;
+		healthVal = 100;
 	}
 
 	void Update()
@@ -126,5 +128,13 @@ public class PlayerMove : MonoBehaviour
 		bulletAway_gameObject.Add(projectile);
 		projectile.GetComponent<BulletCtrl>().SetupBullet(direction, bulletSpeed, gameObject.transform.position);
 		bulletAway = true;
+	}
+
+	private void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			healthVal-=3;
+		}
 	}
 }

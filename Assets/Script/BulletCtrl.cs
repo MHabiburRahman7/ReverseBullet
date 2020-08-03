@@ -67,7 +67,7 @@ public class BulletCtrl : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Enemy Hit");
+            //Debug.Log("Enemy Hit");
             other.gameObject.GetComponent<EnemyAi>().GetDamaged(1);
         }
     }
