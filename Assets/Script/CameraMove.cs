@@ -21,7 +21,6 @@ public class CameraMove : MonoBehaviour
 		else
 		{
 			cameraExist = true;
-			//DontDestroyOnLoad (transform.gameObject);
 		}
 	}
 

@@ -79,15 +79,15 @@ public class PlayerMove : MonoBehaviour
 	{
 
 		// find the vector pointing from our position to the target
-		_direction = (m_aimCtrl.worldPosition - transform.position);
-		//_direction = (m_aimCtrl.worldPosition - front.transform.position).normalized;
+		//_direction = (m_aimCtrl.worldPosition - transform.position);
+		_direction = (m_aimCtrl.worldPosition - front.transform.position).normalized;
 
 		//create the rotation we need to be in to look at the target
-		//_lookRotation = Quaternion.LookRotation(_direction);
+		_lookRotation = Quaternion.LookRotation(_direction);
 
 		//_direction = new Vector3(0, 0, _direction.z);
 		//transform.LookAt(_direction, transform.forward);
-		transform.up = _direction;
+		//transform.up = _direction;
 
 		//rotate us over time according to speed until we are in the required rotation
 		//transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
@@ -96,7 +96,7 @@ public class PlayerMove : MonoBehaviour
 		//Debug.Log("euler angels before: " + _lookRotation.eulerAngles);
 		//_lookRotation.eulerAngles = new Vector3(0, 0, _lookRotation.eulerAngles.z);
 		//Debug.Log("euler angels: " + _lookRotation.eulerAngles);
-		//transform.rotation = _lookRotation;
+		transform.rotation = _lookRotation;
 
 		//transform.rotation = new Quaternion(0, 0, _lookRotation.z, _lookRotation.w);
 		//transform.rotation = Quaternion.Slerp(transform.rotation, LookAtRotationOnly_Z, Time.deltaTime * RotationSpeed);
