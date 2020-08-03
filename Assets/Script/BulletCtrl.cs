@@ -9,6 +9,7 @@ public class BulletCtrl : MonoBehaviour
     public float init_speed;
     private Rigidbody _rb;
     public bool isPulled, isClose;
+    public int Damage;
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,10 +22,10 @@ public class BulletCtrl : MonoBehaviour
         _rb.velocity = target * init_speed;
     }
 
-    public void SetupBullet(Vector3 target_pos, float sped, GameObject p)
+    public void SetupBullet(Vector3 target_pos, float speed, GameObject p)
     {
         target = target_pos;
-        init_speed = sped;
+        init_speed = speed;
         player = p;
 
         isPulled = false;
@@ -38,18 +39,7 @@ public class BulletCtrl : MonoBehaviour
     }
 
     void moveBackTothePlayer()
-    {
-        //if it is close enough
-        if(Vector3.Distance(gameObject.transform.position, player.transform.position) >= 1f)
-        {
-            // Move our position a step closer to the target.
-            float step = init_speed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
-        }
-        else
-        {
-            isClose = true;
-        }
+    {//WRONG
     }
 
     // Update is called once per frame
@@ -65,7 +55,7 @@ public class BulletCtrl : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            //do something to enemy
+            other.gameObject.GetComponent<EnemyAi>().GetDamaged(1);
         }
     }
 }

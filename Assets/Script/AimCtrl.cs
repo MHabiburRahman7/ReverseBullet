@@ -22,7 +22,7 @@ public class AimCtrl : MonoBehaviour
         {
             //transform.LookAt(hit.point);
 
-            worldPosition = hit.point;
+            worldPosition = hit.point + Vector3.up;
         }
 
         //Debug.Log("Mouse pos : " + worldPosition);
