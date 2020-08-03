@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BulletCtrl : MonoBehaviour
 {
-    public Vector3 target;
-    public GameObject player;
+    public Vector3 target, player_lastPosition;
     public float init_speed;
     private Rigidbody _rb;
     public bool isPulled, isClose;
@@ -22,11 +21,11 @@ public class BulletCtrl : MonoBehaviour
         _rb.velocity = target * init_speed;
     }
 
-    public void SetupBullet(Vector3 target_pos, float speed, GameObject p)
+    public void SetupBullet(Vector3 target_pos, float speed, Vector3 p)
     {
         target = target_pos;
         init_speed = speed;
-        player = p;
+        player_lastPosition = p;
 
         isPulled = false;
         isClose = false;
@@ -40,6 +39,19 @@ public class BulletCtrl : MonoBehaviour
 
     void moveBackTothePlayer()
     {//WRONG
+     //if it is close enough
+        float dist = Vector3.Distance(gameObject.transform.position, player_lastPosition);
+        if (Vector3.Distance(gameObject.transform.position, player_lastPosition) > 0.1f)
+        {
+            // Move our position a step closer to the target.
+            float step = init_speed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, player_lastPosition, step);
+        }else if(Vector3.Distance(gameObject.transform.position, player_lastPosition) <= 1f)
+        {
+            isClose = true;
+        }
+
+        //Debug.Log("Distance: " + dist);
     }
 
     // Update is called once per frame
@@ -55,6 +67,7 @@ public class BulletCtrl : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
+            Debug.Log("Enemy Hit");
             other.gameObject.GetComponent<EnemyAi>().GetDamaged(1);
         }
     }

@@ -46,8 +46,23 @@ public class PlayerMove : MonoBehaviour
 		}
 		if (bulletAway)
 		{
+			checkBulletLoc();
 			if (bulletAway_gameObject.Count == 0)
 				bulletAway = false;
+		}
+	}
+
+	void checkBulletLoc()
+	{
+		for (int i = 0; i < bulletAway_gameObject.Count; i++)
+		{
+			if (bulletAway_gameObject[i].GetComponent<BulletCtrl>().isClose == true)
+			{
+				//Debug.Log("Bullet" + i + " is pulled");
+				GameObject tempBullet = bulletAway_gameObject[i];
+				bulletAway_gameObject.RemoveAt(i);
+				Destroy(tempBullet);
+			}
 		}
 	}
 
@@ -55,14 +70,8 @@ public class PlayerMove : MonoBehaviour
 	{
 		for(int i=0; i<bulletAway_gameObject.Count; i++)
 		{
-			Debug.Log("Pulling bullet: " + i);
+			//Debug.Log("Pulling bullet: " + i);
 			bulletAway_gameObject[i].GetComponent<BulletCtrl>().pullTheBullet();
-			if (bulletAway_gameObject[i].GetComponent<BulletCtrl>().isClose)
-			{
-				GameObject tempBullet = bulletAway_gameObject[i]; 
-				bulletAway_gameObject.RemoveAt(i);
-				Destroy(tempBullet);
-			}
 		}
 	}
 
@@ -109,15 +118,13 @@ public class PlayerMove : MonoBehaviour
 
 	void fireBullet()
 	{
-		Vector3 direction = m_aimCtrl.worldPosition;
-		//Vector3 direction = new Vector3(-2.0f, 0, 0);
+		Vector3 direction = m_aimCtrl.worldPosition - front.transform.position;
+		direction.y = 0f;
 
 		//Debug.Log("Velocity: " + direction);
 		GameObject projectile = (GameObject)Instantiate(bulletPrefab, front.transform.position, Quaternion.identity);
 		bulletAway_gameObject.Add(projectile);
-		projectile.GetComponent<BulletCtrl>().SetupBullet(direction, bulletSpeed, this.gameObject);
-		//Rigidbody bullet_rb = projectile.GetComponent<Rigidbody>();
-		//bullet_rb.velocity = direction * 1f;
+		projectile.GetComponent<BulletCtrl>().SetupBullet(direction, bulletSpeed, gameObject.transform.position);
 		bulletAway = true;
 	}
 }
