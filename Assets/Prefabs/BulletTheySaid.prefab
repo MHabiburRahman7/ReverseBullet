@@ -59,7 +59,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -84,7 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &6245559708735211541
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -127,10 +125,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {x: 0, y: 0, z: 0}
-  player: {fileID: 0}
+  player_lastPosition: {x: 0, y: 0, z: 0}
   init_speed: 0
   isPulled: 0
   isClose: 0
+  Damage: 0
 --- !u!96 &5379264113518219214
 TrailRenderer:
   serializedVersion: 2
@@ -147,7 +146,6 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -181,7 +179,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.25715065
         inSlope: 0
         outSlope: 0
         tangentMode: 0

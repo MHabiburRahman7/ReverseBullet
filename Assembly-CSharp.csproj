@@ -69,6 +69,7 @@
     <Compile Include="Assets\Script\CameraMove.cs" />
     <Compile Include="Assets\Script\EnemyAi.cs" />
     <Compile Include="Assets\Script\GameMgr.cs" />
+    <Compile Include="Assets\Script\NewPlayerMove.cs" />
     <Compile Include="Assets\Script\PlayerMove.cs" />
     <Compile Include="Assets\crosshair.cs" />
     <Reference Include="UnityEngine">

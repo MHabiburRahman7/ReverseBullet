@@ -44,7 +44,7 @@ public class BulletCtrl : MonoBehaviour
         if (Vector3.Distance(gameObject.transform.position, player_lastPosition) > 0.1f)
         {
             // Move our position a step closer to the target.
-            float step = init_speed * Time.deltaTime; // calculate distance to move
+            float step = init_speed * Time.deltaTime * 10; // calculate distance to move
             transform.position = Vector3.MoveTowards(transform.position, player_lastPosition, step);
         }else if(Vector3.Distance(gameObject.transform.position, player_lastPosition) <= 1f)
         {
